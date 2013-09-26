@@ -1,0 +1,31 @@
+procedure main(args)
+    pL := [ ]
+    
+    if *args == 0 then stop("Usage: hw4 [filename]") 
+    file := open(args[1]) | stop("File [", args[1], "] not found")
+    while put(pL, read(file))
+    close(file)
+    
+    pow := 0
+    every i := 1 to 10 do {
+        if( *pL < 2 ^ i ) then {
+            pow := i
+            break
+        }
+    }
+
+    every i := (*pL + 1) to 2 ^ pow do {
+        put(pL, "bye")
+    }
+
+    every i := 1 to *pL do {
+        pL[i] := pL[i] || " (" || i || ")"    
+    }    
+
+    # traverse half the list by odds, swapping the odds
+    every i := 1 to (*pL / 2)  by + 2 do {
+        pL[i] :=: pL[-i-1]
+    }
+    
+    every write( !pL )
+end
